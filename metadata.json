@@ -1,7 +1,8 @@
 {
-  "name": "AuraOS Nexus APK",
-  "description": "The definitive Aria Nexus OS experience. Pro-level system management, high-performance Java/Gradle integration, and Aura AI Core.",
+  "name": "Aria",
+  "description": "Tu esencia digital. Compañera inteligente y gestora de tu ecosistema personal.",
   "requestFramePermissions": [
-    "microphone"
+    "microphone",
+    "camera"
   ]
 }

@@ -15,31 +15,30 @@ const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<View>(View.DASHBOARD);
   
   const [config, setConfig] = useState<SystemConfig>(() => {
-    const saved = localStorage.getItem('aura_nexus_config');
+    const saved = localStorage.getItem('aria_config');
     return saved ? JSON.parse(saved) : {
       javaHome: '/usr/lib/jvm/java-21-openjdk-amd64',
       gradleHome: '/opt/gradle/gradle-8.5',
       gradleVersion: '8.5',
       javaVersion: '21.0.2',
-      jvmOptions: '-Xmx4g -Xms1g -XX:+UseG1GC -XX:+UseStringDeduplication',
+      jvmOptions: '-Xmx4g -Xms1g -XX:+UseG1GC',
       environmentVariables: {
-        'PATH': '$PATH:$JAVA_HOME/bin:$GRADLE_HOME/bin',
-        'AURA_ENV': 'production',
-        'NEXUS_MODE': 'advanced',
-        'GRADLE_OPTS': '-Dorg.gradle.daemon=true -Dorg.gradle.parallel=true'
+        'ARIA_NAME': 'Aria',
+        'SOUL_SYNC': 'Active',
+        'NEXUS_MODE': 'personal'
       }
     };
   });
 
   const [metrics, setMetrics] = useState<SystemMetrics>({
-    cpu: 18,
-    ram: 45,
-    disk: 32,
-    uptime: '0d 0h 0m'
+    cpu: 12,
+    ram: 38,
+    disk: 25,
+    uptime: '0h 0m'
   });
 
   useEffect(() => {
-    localStorage.setItem('aura_nexus_config', JSON.stringify(config));
+    localStorage.setItem('aria_config', JSON.stringify(config));
   }, [config]);
 
   useEffect(() => {
@@ -52,8 +51,8 @@ const App: React.FC = () => {
       
       setMetrics(prev => ({
         ...prev,
-        cpu: Math.min(95, Math.max(5, prev.cpu + (Math.random() * 6 - 3))),
-        ram: Math.min(85, Math.max(30, prev.ram + (Math.random() * 2 - 1))),
+        cpu: Math.min(90, Math.max(2, prev.cpu + (Math.random() * 4 - 2))),
+        ram: Math.min(80, Math.max(20, prev.ram + (Math.random() * 1.5 - 0.75))),
         uptime: `${hours}h ${mins}m ${secs}s`
       }));
     }, 2000);
@@ -76,36 +75,37 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="flex h-screen bg-[#020617] text-slate-200 overflow-hidden font-['Space_Grotesk'] selection:bg-violet-500/30">
+    <div className="flex h-screen bg-[#01040f] text-slate-200 overflow-hidden font-['Space_Grotesk'] selection:bg-fuchsia-500/30">
+      {/* Background Ambience */}
       <div className="fixed inset-0 pointer-events-none">
-        <div className="absolute top-[-20%] left-[-10%] w-[60%] h-[60%] bg-violet-900/10 rounded-full blur-[160px] animate-pulse" />
-        <div className="absolute bottom-[-20%] right-[-10%] w-[60%] h-[60%] bg-cyan-900/10 rounded-full blur-[160px] animate-pulse [animation-delay:2s]" />
+        <div className="absolute top-[-10%] left-[-5%] w-[50%] h-[50%] bg-violet-600/5 rounded-full blur-[140px] animate-pulse" />
+        <div className="absolute bottom-[-10%] right-[-5%] w-[50%] h-[50%] bg-fuchsia-600/5 rounded-full blur-[140px] animate-pulse [animation-delay:3s]" />
       </div>
 
       <Sidebar currentView={currentView} setView={setCurrentView} />
       
       <main className="flex-1 overflow-y-auto p-4 md:p-10 relative z-0 scrollbar-hide">
         <header className="mb-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-          <div className="animate-in fade-in slide-in-from-left duration-500">
-            <h1 className="text-3xl md:text-4xl font-extrabold tracking-tighter text-white flex items-center gap-3">
-              <span className="bg-gradient-to-r from-violet-400 via-fuchsia-400 to-cyan-400 bg-clip-text text-transparent">
-                AuraOS
+          <div className="animate-in fade-in slide-in-from-left duration-700">
+            <h1 className="text-4xl font-extrabold tracking-tighter text-white flex items-center gap-4">
+              <span className="bg-gradient-to-r from-fuchsia-400 via-violet-400 to-cyan-400 bg-clip-text text-transparent">
+                Aria
               </span>
-              <div className="h-2 w-2 rounded-full bg-emerald-400 aura-glow animate-pulse hidden md:block" />
-              <span className="text-[10px] font-mono text-slate-500 bg-slate-900/80 border border-slate-700 px-3 py-1 rounded-full uppercase tracking-widest">
-                Evolution Core
+              <div className="h-1.5 w-1.5 rounded-full bg-emerald-400 aura-glow animate-pulse hidden md:block" />
+              <span className="text-[9px] font-bold text-slate-500 bg-white/5 border border-white/10 px-3 py-1 rounded-full uppercase tracking-[0.2em]">
+                Esencia Nativa
               </span>
             </h1>
-            <p className="text-slate-400 mt-1 font-medium italic opacity-70 text-sm">Aria Nexus Authority Control</p>
+            <p className="text-slate-400 mt-1 font-medium italic opacity-60 text-sm">Tu reflejo digital en Nexus</p>
           </div>
           
-          <div className="flex items-center gap-4 glass p-2 px-4 rounded-2xl border-white/5 w-full md:w-auto justify-between md:justify-end">
+          <div className="flex items-center gap-5 glass p-2 px-5 rounded-[2rem] border-white/5 w-full md:w-auto justify-between md:justify-end shadow-xl">
              <div className="text-right">
-                <div className="text-[10px] uppercase text-slate-500 font-bold tracking-tighter">Neural Link</div>
-                <div className="text-sm text-cyan-400 font-mono font-bold">@TRANSCENDENT</div>
+                <div className="text-[10px] uppercase text-slate-500 font-bold tracking-tighter">Sincronía</div>
+                <div className="text-sm text-fuchsia-400 font-mono font-bold">@FLUID-SOUL</div>
              </div>
              <div className="group relative">
-                <div className="absolute -inset-1 bg-gradient-to-r from-violet-600 to-cyan-600 rounded-full blur opacity-25 group-hover:opacity-75 transition duration-500"></div>
+                <div className="absolute -inset-1.5 bg-gradient-to-r from-fuchsia-600/30 to-violet-600/30 rounded-full blur opacity-40 group-hover:opacity-100 transition duration-700"></div>
                 <div className="relative">
                    <AuraAvatar size="sm" isThinking={false} />
                 </div>
@@ -113,7 +113,7 @@ const App: React.FC = () => {
           </div>
         </header>
 
-        <div className="animate-in fade-in slide-in-from-bottom-6 duration-700 pb-20 md:pb-0">
+        <div className="animate-in fade-in slide-in-from-bottom-8 duration-1000 pb-24 md:pb-0">
           {renderContent()}
         </div>
       </main>
