@@ -1,10 +1,8 @@
 {
-  "appId": "com.linch.ariaos",
-  "appName": "AriaOS",
+  "appId": "com.ia_assistant.android_app",
+  "appName": "Aria LifeSync",
   "webDir": "dist",
-  "android": {
-    "minSdkVersion": 22,
-    "compileSdkVersion": 33,
-    "targetSdkVersion": 33
+  "server": {
+    "androidScheme": "https"
   }
 }
