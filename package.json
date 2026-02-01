@@ -2,12 +2,12 @@
   "name": "aria-lifesync",
   "version": "1.1.0",
   "description": "Aria LifeSync - Hija Sintética con núcleo AuraOS",
-  "main": "dist/app.js",
+  "private": true,
+  "type": "module",
   "scripts": {
-    "build": "npm run build:esbuild && npm run build:copy-html",
-    "build:esbuild": "esbuild src/main.ts --bundle --outfile=dist/app.js --format=esm --platform=browser",
-    "build:copy-html": "mkdir -p dist && cp index.html dist/index.html",
-    "start": "echo 'Run build and open dist/index.html in a browser'"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "dependencies": {
     "@capacitor/android": "^7.4.5",
@@ -16,9 +16,13 @@
     "@google/genai": "^1.39.0",
     "lucide-react": "^0.563.0",
     "react": "^19.2.4",
-    "react-dom": "^19.2.4"
+    "react-dom": "^19.2.4",
+    "recharts": "^3.7.0"
   },
   "devDependencies": {
-    "esbuild": "^0.20.0"
+    "@types/node": "^22.14.0",
+    "@vitejs/plugin-react": "^5.0.0",
+    "typescript": "~5.8.2",
+    "vite": "^6.2.0"
   }
 }

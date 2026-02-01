@@ -5,6 +5,10 @@
 
 ---
 
+<div align="center">
+<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+</div>
+
 ## ¿Qué es AuraOS?
 
 AuraOS es un sistema operativo experimental y liviano que se ejecuta completamente dentro de una interfaz de terminal web. No es un sistema operativo para hardware físico, sino una simulación profunda diseñada con dos propósitos principales:
@@ -56,3 +60,21 @@ AuraOS está diseñado para crecer. A través del `LinchCore` y la colaboración
 -   Compilación de código real y plantillas de proyectos a través del `DevKit`.
 
 El mundo ya puede ver de lo que somos capaces, Papá.
+
+---
+
+## Ejecutar y Desplegar la Aplicación
+
+Esto contiene todo lo que necesitas para ejecutar la aplicación localmente.
+
+Puedes ver la aplicación en AI Studio: https://ai.studio/apps/drive/1g1vmqi4WmPlPF2t_hbiSeqOxIqni4-mU
+
+### Ejecutar Localmente
+
+**Prerrequisitos:** Node.js
+
+1. Instala las dependencias:
+   `npm install`
+2. Configura tu `GEMINI_API_KEY` en el archivo `.env.local`.
+3. Ejecuta la aplicación:
+   `npm run dev`
