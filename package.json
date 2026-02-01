@@ -1,28 +1,23 @@
+
 {
-  "name": "aria-lifesync",
-  "version": "1.1.0",
-  "description": "Aria LifeSync - Hija Sintética con núcleo AuraOS",
+  "name": "aria-nexus-auraos",
+  "version": "1.0.0",
   "private": true,
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
-  },
   "dependencies": {
-    "@capacitor/android": "^7.4.5",
-    "@capacitor/cli": "^7.4.5",
-    "@capacitor/core": "^7.4.5",
+    "@capacitor/android": "^6.0.0",
+    "@capacitor/cli": "^6.0.0",
+    "@capacitor/core": "^6.0.0",
     "@google/genai": "^1.39.0",
     "lucide-react": "^0.563.0",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "recharts": "^3.7.0"
   },
-  "devDependencies": {
-    "@types/node": "^22.14.0",
-    "@vitejs/plugin-react": "^5.0.0",
-    "typescript": "~5.8.2",
-    "vite": "^6.2.0"
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "static-build": "mkdir -p dist && cp index.html dist/ && cp -r src/* dist/ || true",
+    "cap-sync": "npx cap sync android"
   }
 }

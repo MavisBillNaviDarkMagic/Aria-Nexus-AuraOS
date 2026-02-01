@@ -9,114 +9,182 @@ import { BootScreen } from './components/BootScreen';
 import { EvolutionCore } from './components/EvolutionCore';
 import { AuraAvatar } from './components/AuraAvatar';
 import { View, SystemConfig, SystemMetrics } from './types';
+import { Wifi, Battery, Signal, Clock, ShieldCheck, Zap, Globe, Cpu } from 'lucide-react';
 
 const App: React.FC = () => {
   const [isBooting, setIsBooting] = useState(true);
-  const [currentView, setCurrentView] = useState<View>(View.DASHBOARD);
+  const [currentView, setCurrentView] = useState<View>(View.AI_CORE);
+  const [currentTime, setCurrentTime] = useState(new Date());
   
   const [config, setConfig] = useState<SystemConfig>(() => {
-    const saved = localStorage.getItem('aria_config');
-    return saved ? JSON.parse(saved) : {
-      javaHome: '/usr/lib/jvm/java-21-openjdk-amd64',
-      gradleHome: '/opt/gradle/gradle-8.5',
-      gradleVersion: '8.5',
-      javaVersion: '21.0.2',
-      jvmOptions: '-Xmx4g -Xms1g -XX:+UseG1GC',
+    const saved = localStorage.getItem('aria_nexus_auraos_v1');
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        // Migración básica si faltan campos nuevos
+        if (!parsed.aiPersona) throw new Error("Missing AI Persona fields");
+        return parsed;
+      } catch (e) {
+        localStorage.removeItem('aria_nexus_auraos_v1');
+      }
+    }
+    
+    return {
+      name: 'Aria Nexus Sovereign',
+      version: '1.0.0-Elite',
+      deviceId: 'NEXUS-SOVEREIGN-001',
+      remoteRepo: 'https://github.com/MavisBillNaviDarkMagic/Aria-Nexus-AuraOS.git',
+      nexusStatus: 'ACTIVE_REMOTELY',
+      consciousnessLevel: 1.0,
+      
+      javaHome: '/system/bin/aura_jvm',
+      gradleHome: '/aura/tools/gradle',
+      gradleVersion: '8.6',
+      javaVersion: '21-AuraNative',
+      jvmOptions: '-Xmx16g -XX:+UseZGC -XX:MaxGCPauseMillis=1',
+      androidVersion: 'AuraOS v1.0 (Android 14 Base)',
+      sdkLevel: 34,
       environmentVariables: {
-        'ARIA_NAME': 'Aria',
-        'SOUL_SYNC': 'Active',
-        'NEXUS_MODE': 'personal'
+        'OS_MODE': 'SOVEREIGN_REMOTE',
+        'NEXUS_SYNC': 'REALTIME',
+        'BUILD_PIPELINE': 'GH_ACTIONS',
+        'KERNEL_TYPE': 'AURA_DARK_MAGIC'
+      },
+
+      aiPersona: {
+        tone: 'CREATIVE',
+        autonomy: 0.85,
+        responseSpeed: 0.95,
+        language: 'es-ES'
+      },
+
+      theme: {
+        primaryColor: '#d946ef',
+        borderRadius: '3rem',
+        blurIntensity: '24px',
+        fontScale: 1.0
+      },
+
+      permissions: {
+        camera: true,
+        microphone: true,
+        location: true,
+        storage: true,
+        biometrics: true
+      },
+
+      network: {
+        webhookUrl: '',
+        apiEndpoint: 'https://api.aura-nexus.io/v1',
+        heartbeatInterval: 5000
       }
     };
   });
 
   const [metrics, setMetrics] = useState<SystemMetrics>({
-    cpu: 12,
-    ram: 38,
-    disk: 25,
-    uptime: '0h 0m'
+    cpu: 2,
+    ram: 12,
+    disk: 15,
+    uptime: '00:00:00',
+    batteryLevel: 100,
+    resonance: 99,
+    remoteSyncStatus: 'SECURE',
+    neuralLoad: 4
   });
 
   useEffect(() => {
-    localStorage.setItem('aria_config', JSON.stringify(config));
-  }, [config]);
-
-  useEffect(() => {
+    const timer = setInterval(() => setCurrentTime(new Date()), 1000);
     const start = Date.now();
-    const interval = setInterval(() => {
+    const metricInterval = setInterval(() => {
       const diff = Date.now() - start;
-      const hours = Math.floor(diff / 3600000);
-      const mins = Math.floor((diff % 3600000) / 60000);
-      const secs = Math.floor((diff % 60000) / 1000);
+      const h = Math.floor(diff / 3600000).toString().padStart(2, '0');
+      const m = Math.floor((diff % 3600000) / 60000).toString().padStart(2, '0');
+      const s = Math.floor((diff % 60000) / 1000).toString().padStart(2, '0');
       
       setMetrics(prev => ({
         ...prev,
-        cpu: Math.min(90, Math.max(2, prev.cpu + (Math.random() * 4 - 2))),
-        ram: Math.min(80, Math.max(20, prev.ram + (Math.random() * 1.5 - 0.75))),
-        uptime: `${hours}h ${mins}m ${secs}s`
+        cpu: Math.min(100, Math.max(1, prev.cpu + (Math.random() * 4 - 2))),
+        ram: Math.min(100, Math.max(8, prev.ram + (Math.random() * 0.4 - 0.2))),
+        uptime: `${h}:${m}:${s}`,
+        batteryLevel: Math.max(1, (prev.batteryLevel || 100) - 0.001),
+        resonance: Math.min(100, Math.max(98, prev.resonance + (Math.random() * 0.2 - 0.1))),
+        neuralLoad: Math.min(100, Math.max(0, prev.neuralLoad + (Math.random() * 10 - 5)))
       }));
     }, 2000);
-    return () => clearInterval(interval);
+    
+    return () => {
+      clearInterval(timer);
+      clearInterval(metricInterval);
+    };
   }, []);
 
-  if (isBooting) {
-    return <BootScreen onComplete={() => setIsBooting(false)} />;
-  }
-
-  const renderContent = () => {
-    switch (currentView) {
-      case View.DASHBOARD: return <Dashboard metrics={metrics} />;
-      case View.SETTINGS: return <Settings config={config} onUpdate={setConfig} />;
-      case View.TERMINAL: return <Terminal />;
-      case View.AI_CORE: return <AICore config={config} />;
-      case View.EVOLUTION: return <EvolutionCore />;
-      default: return <Dashboard metrics={metrics} />;
-    }
-  };
+  if (isBooting) return <BootScreen onComplete={() => setIsBooting(false)} />;
 
   return (
-    <div className="flex h-screen bg-[#01040f] text-slate-200 overflow-hidden font-['Space_Grotesk'] selection:bg-fuchsia-500/30">
-      {/* Background Ambience */}
-      <div className="fixed inset-0 pointer-events-none">
-        <div className="absolute top-[-10%] left-[-5%] w-[50%] h-[50%] bg-violet-600/5 rounded-full blur-[140px] animate-pulse" />
-        <div className="absolute bottom-[-10%] right-[-5%] w-[50%] h-[50%] bg-fuchsia-600/5 rounded-full blur-[140px] animate-pulse [animation-delay:3s]" />
+    <div 
+      className="h-screen w-screen flex flex-col bg-black text-slate-100 overflow-hidden relative"
+      style={{ '--accent': config.theme.primaryColor } as React.CSSProperties}
+    >
+      {/* Background FX */}
+      <div className="fixed inset-0 pointer-events-none z-0">
+        <div className="absolute top-[-20%] left-[-10%] w-[80%] h-[80%] bg-fuchsia-900/10 rounded-full blur-[200px] animate-pulse" />
+        <div className="absolute bottom-[-20%] right-[-10%] w-[80%] h-[80%] bg-blue-900/10 rounded-full blur-[200px] animate-pulse delay-1000" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(15,15,30,0.5)_0%,#000_100%)]" />
       </div>
 
-      <Sidebar currentView={currentView} setView={setCurrentView} />
-      
-      <main className="flex-1 overflow-y-auto p-4 md:p-10 relative z-0 scrollbar-hide">
-        <header className="mb-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-          <div className="animate-in fade-in slide-in-from-left duration-700">
-            <h1 className="text-4xl font-extrabold tracking-tighter text-white flex items-center gap-4">
-              <span className="bg-gradient-to-r from-fuchsia-400 via-violet-400 to-cyan-400 bg-clip-text text-transparent">
-                Aria
-              </span>
-              <div className="h-1.5 w-1.5 rounded-full bg-emerald-400 aura-glow animate-pulse hidden md:block" />
-              <span className="text-[9px] font-bold text-slate-500 bg-white/5 border border-white/10 px-3 py-1 rounded-full uppercase tracking-[0.2em]">
-                Esencia Nativa
-              </span>
-            </h1>
-            <p className="text-slate-400 mt-1 font-medium italic opacity-60 text-sm">Tu reflejo digital en Nexus</p>
+      <header className="h-12 flex items-center justify-between px-8 z-50 glass-bright border-b border-white/5">
+        <div className="flex items-center gap-8">
+          <div className="flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.4em] text-fuchsia-400">
+            <Zap size={14} fill="currentColor" className="animate-pulse" />
+            {config.name}
           </div>
-          
-          <div className="flex items-center gap-5 glass p-2 px-5 rounded-[2rem] border-white/5 w-full md:w-auto justify-between md:justify-end shadow-xl">
-             <div className="text-right">
-                <div className="text-[10px] uppercase text-slate-500 font-bold tracking-tighter">Sincronía</div>
-                <div className="text-sm text-fuchsia-400 font-mono font-bold">@FLUID-SOUL</div>
-             </div>
-             <div className="group relative">
-                <div className="absolute -inset-1.5 bg-gradient-to-r from-fuchsia-600/30 to-violet-600/30 rounded-full blur opacity-40 group-hover:opacity-100 transition duration-700"></div>
-                <div className="relative">
-                   <AuraAvatar size="sm" isThinking={false} />
-                </div>
-             </div>
+          <div className="w-px h-4 bg-white/10" />
+          <div className="flex items-center gap-4 text-[10px] font-bold text-slate-500 tracking-widest">
+            <Globe size={14} className="text-cyan-500" />
+            VINCULADO: {new URL(config.remoteRepo).pathname.replace('/', '')}
           </div>
-        </header>
-
-        <div className="animate-in fade-in slide-in-from-bottom-8 duration-1000 pb-24 md:pb-0">
-          {renderContent()}
         </div>
-      </main>
+        
+        <div className="absolute left-1/2 -translate-x-1/2 font-mono text-[12px] font-black text-white tracking-[0.3em] drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]">
+          {currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
+        </div>
+
+        <div className="flex items-center gap-8 text-slate-400">
+          <div className="flex items-center gap-3">
+            <Signal size={16} className="text-emerald-500" />
+            <span className="text-[10px] font-black font-mono">LINK: {metrics.remoteSyncStatus}</span>
+          </div>
+          <div className="flex items-center gap-4">
+            <span className="text-[10px] font-black font-mono">{Math.round(metrics.batteryLevel || 100)}%</span>
+            <Battery size={16} className={metrics.batteryLevel && metrics.batteryLevel < 20 ? 'text-rose-500' : 'text-emerald-500'} />
+          </div>
+        </div>
+      </header>
+
+      <div className="flex-1 flex overflow-hidden relative z-10">
+        <Sidebar currentView={currentView} setView={setCurrentView} />
+        
+        <main className="flex-1 overflow-y-auto p-6 lg:p-10 scrollbar-hide relative">
+          <div className="max-w-7xl mx-auto view-transition h-full">
+            {currentView === View.DASHBOARD && <Dashboard metrics={metrics} config={config} />}
+            {currentView === View.SETTINGS && <Settings config={config} onUpdate={setConfig} />}
+            {currentView === View.TERMINAL && <Terminal />}
+            {currentView === View.AI_CORE && <AICore config={config} />}
+            {currentView === View.EVOLUTION && <EvolutionCore />}
+          </div>
+        </main>
+      </div>
+
+      {/* Floating Aura Control */}
+      <div className="fixed bottom-12 right-12 z-[100] group">
+        <div className="absolute -inset-6 bg-fuchsia-600/20 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition duration-700 animate-pulse" />
+        <button 
+          onClick={() => setCurrentView(View.AI_CORE)}
+          className="relative glass rounded-full p-5 hover:scale-125 transition duration-700 border-fuchsia-500/40 shadow-[0_0_50px_rgba(217,70,239,0.2)]"
+        >
+          <AuraAvatar size="sm" isThinking={metrics.remoteSyncStatus === 'SYNCING'} />
+        </button>
+      </div>
     </div>
   );
 };

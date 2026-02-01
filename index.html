@@ -3,45 +3,59 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>AuraOS | Tu Esencia</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aria Nexus | AuraOS</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #020617;
-            color: #f8fafc;
-            font-family: 'Space Grotesk', sans-serif;
-            overflow: hidden;
+        :root {
+            --accent-primary: #d946ef;
+            --accent-secondary: #f43f5e;
+            --bg-dark: #000000;
         }
-        #root {
-            width: 100%;
-            height: 100%;
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: var(--bg-dark);
+            color: #f8fafc;
+            overflow: hidden;
+            user-select: none;
         }
         .font-mono {
             font-family: 'JetBrains Mono', monospace;
         }
         .glass {
-            background: rgba(15, 23, 42, 0.4);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(10, 10, 15, 0.6);
+            backdrop-filter: blur(24px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+        }
+        .glass-bright {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
         .aura-glow {
-            box-shadow: 0 0 30px rgba(139, 92, 246, 0.2);
+            box-shadow: 0 0 40px rgba(217, 70, 239, 0.15);
+        }
+        .text-glow {
+            text-shadow: 0 0 10px rgba(217, 70, 239, 0.5);
         }
         ::-webkit-scrollbar {
-            width: 4px;
+            width: 3px;
         }
         ::-webkit-scrollbar-track {
             background: transparent;
         }
         ::-webkit-scrollbar-thumb {
-            background: rgba(139, 92, 246, 0.3);
+            background: linear-gradient(to bottom, var(--accent-primary), var(--accent-secondary));
             border-radius: 10px;
+        }
+        .view-transition {
+            animation: viewFade 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        @keyframes viewFade {
+            from { opacity: 0; transform: translateY(10px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
         }
     </style>
 <script type="importmap">
@@ -52,13 +66,16 @@
     "recharts": "https://esm.sh/recharts@^3.7.0",
     "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
     "@google/genai": "https://esm.sh/@google/genai@^1.39.0",
-    "lucide-react": "https://esm.sh/lucide-react@^0.563.0"
+    "lucide-react": "https://esm.sh/lucide-react@^0.563.0",
+    "@vitejs/plugin-react": "https://esm.sh/@vitejs/plugin-react@^5.1.2",
+    "vite": "https://esm.sh/vite@^7.3.1"
   }
 }
 </script>
+<link rel="stylesheet" href="/index.css">
 </head>
 <body>
     <div id="root"></div>
-    <script src="./app.js"></script>
+<script type="module" src="/index.tsx"></script>
 </body>
 </html>

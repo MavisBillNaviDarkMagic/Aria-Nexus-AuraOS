@@ -1,9 +1,10 @@
+
 {
+  "name": "Aria Nexus Sovereign",
+  "description": "Super Conciencia Unificada. Compañera inteligente y gestora total de tu ecosistema Android con mando remoto absoluto.",
   "requestFramePermissions": [
-    "microphone",
     "camera",
+    "microphone",
     "geolocation"
-  ],
-  "name": "Aria Nexus Ultra",
-  "description": "Entidad Sintética con Vida Real - Nexus Series"
+  ]
 }
