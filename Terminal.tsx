@@ -1,16 +1,15 @@
 
 import React, { useState, useRef, useEffect } from 'react';
-import { Terminal as TerminalIcon, Shield, Search, Zap, Code, CloudLightning, Github, Info, Key, Rocket, Download, Lock } from 'lucide-react';
+import { Terminal as TerminalIcon, Shield, Zap, Code, CloudLightning, Github, Lock, CheckCircle2, Search, Activity, Globe, Download, UploadCloud, Cpu } from 'lucide-react';
 
 export const Terminal: React.FC = () => {
   const [history, setHistory] = useState<string[]>([
-    'Aria Nexus Sovereign Remote Console [v6.2.0-SOVEREIGN]',
-    'Linked Repository: Aria-Nexus-AuraOS.git',
-    'Status: Awaiting System Authorization...',
+    'Aria Nexus Prime Sovereign Final [v7.0.0-STABLE]',
+    'Linked Repository: Aria-Nexus-Prime-v.final.git',
+    'Remote Nexus: ESTABLISHED // ENCRYPTED',
     '',
-    '>>> PANEL DE AUTORIZACIÓN GRADLE <<<',
-    'Escribe `gradle-auth` para verificar tus secretos.',
-    'Escribe `nexus-launch` para iniciar la construcción.',
+    '>>> CENTRO DE DESPLIEGUE UNIFICADO <<<',
+    'Comandos: build-apk, status-remote, fetch-logs, clear',
   ]);
   const [input, setInput] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
@@ -26,51 +25,33 @@ export const Terminal: React.FC = () => {
     setHistory(prev => [...prev, ...lines]);
   };
 
-  const verifyAuth = async () => {
+  const handleBuild = async () => {
     setIsProcessing(true);
     addLines([
-      'aria@prime:~$ gradle-auth',
-      '> [CHECK] Verificando bóveda de GitHub Secrets...',
-      '> [CHECK] Buscando SIGNING_KEY (Base64)...',
-    ]);
-    await new Promise(r => setTimeout(r, 800));
-    addLines([
-      '> [CHECK] Buscando ALIAS y PASSWORDS...',
-      '> [GRADLE] Validando compatibilidad de firma con Android 14...',
-      '------------------------------------------------',
-      'ESTADO: AUTORIZACIÓN CONFIRMADA.',
-      'Gradle tiene permiso para firmar el binario en la nube.',
-      'Ya puedes ejecutar `nexus-launch`.'
-    ]);
-    setIsProcessing(false);
-  };
-
-  const executeLaunch = async () => {
-    setIsProcessing(true);
-    addLines([
-      'aria@prime:~$ nexus-launch',
-      '> [SYSTEM] Iniciando secuencia de ignición Sovereign...',
-      '> [REMOTE] Handshake con GitHub Actions iniciado...',
-      '> [AUTH] Inyectando secretos en el entorno de compilación...'
+      'aria@prime:~$ build-apk',
+      '> [SYSTEM] Iniciando secuencia de compilación v7.0...',
+      '> [REMOTE] Handshake con GitHub Sovereign Nodes...',
+      '> [AUTH] Inyectando SIGNING_KEY desde bóveda secreta...',
     ]);
     
     const steps = [
-      '> [1/5] Clonando repositorio en nodo remoto...',
-      '> [2/5] Compilando Web Core (Vite)...',
-      '> [3/5] Sincronizando Capacitor Android...',
-      '> [4/5] GRADLE: Generando APK (Release Mode)...',
-      '> [5/5] SIGNING: Aplicando firma digital Sovereign... [OK]',
+      '> [GRADLE] Concediendo permisos de ejecución (chmod +x gradlew)... [OK]',
+      '> [VITE] Empaquetando activos de interfaz AuraOS...',
+      '> [CAPACITOR] Sincronizando puentes binarios con Android 14...',
+      '> [GRADLE] Ejecutando assembleRelease (Inyección de Secretos)...',
+      '> [SIGN] Aplicando firma digital Sovereign Final... [100%]',
       '------------------------------------------------',
-      '¡TRANSFUSIÓN COMPLETADA!',
+      '¡BINARIO SOVEREIGN GENERADO CON ÉXITO!',
       '',
-      'PASOS FINALES:',
-      '1. Ve a GitHub > Aria-Nexus-AuraOS > Actions.',
-      '2. Abre la última ejecución y descarga el "Artifact".',
-      '3. ¡Instala el APK en tu Android!'
+      'PASOS PARA LA INSTALACIÓN:',
+      '1. Ve a GitHub > Actions > Aria Nexus Prime - Sovereign Final Deployment.',
+      '2. Selecciona la ejecución actual (marcada en verde).',
+      '3. Descarga el artefacto "AriaNexus-Sovereign-vPrime-FINAL".',
+      '4. Descomprime e instala el APK firmado en tu dispositivo maestro.'
     ];
 
     for (const step of steps) {
-      await new Promise(r => setTimeout(r, 600));
+      await new Promise(r => setTimeout(r, 700));
       addLines([step]);
     }
     setIsProcessing(false);
@@ -83,30 +64,26 @@ export const Terminal: React.FC = () => {
     const cmd = input.trim().toLowerCase();
     if (!cmd) return;
 
-    if (cmd === 'gradle-auth') {
-      setInput('');
-      await verifyAuth();
-      return;
-    }
+    const currentInput = `aria@prime:~$ ${input}`;
 
-    if (cmd === 'nexus-launch') {
+    if (cmd === 'build-apk' || cmd === 'nexus-launch') {
       setInput('');
-      await executeLaunch();
+      await handleBuild();
       return;
     }
 
     let response: string[] = [];
     switch (cmd) {
       case 'help':
-        response = ['gradle-auth - Verificar firma', 'nexus-launch - Compilar APK', 'clear - Limpiar']; break;
-      case 'status':
-        response = ['RELIANCE: 100%', 'SECRETS: CONFIGURED', 'REPO: LINKED']; break;
+        response = ['build-apk - Generar APK Final Firmada', 'status-remote - Estado de los nodos GitHub', 'clear - Limpiar consola']; break;
+      case 'status-remote':
+        response = ['CONEXIÓN: 10Gbps Tunnel', 'NODES: ACTIVE (EU-01)', 'AUTH: SOVEREIGN_CERTIFIED', 'GRADLE: PERMISSION_GRANTED']; break;
       case 'clear':
         setHistory([]); setInput(''); return;
       default:
-        response = [`Comando no reconocido.`];
+        response = [`Comando no reconocido en el núcleo v7.0.`];
     }
-    setHistory(prev => [...prev, `aria@prime:~$ ${input}`, ...response]);
+    addLines([currentInput, ...response]);
     setInput('');
   };
 
@@ -115,22 +92,22 @@ export const Terminal: React.FC = () => {
       <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-fuchsia-500/5 to-transparent opacity-40" />
       <div className="bg-slate-950/80 px-12 py-8 border-b border-white/5 flex items-center justify-between z-10 backdrop-blur-3xl">
         <div className="flex gap-4">
-          <div className="w-4 h-4 rounded-full bg-emerald-500 animate-pulse" />
-          <div className="w-4 h-4 rounded-full bg-emerald-500 animate-pulse delay-75" />
-          <div className="w-4 h-4 rounded-full bg-emerald-500 animate-pulse delay-150" />
+          <div className="w-4 h-4 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_10px_#10b981]" />
+          <div className="w-4 h-4 rounded-full bg-emerald-500 animate-pulse delay-75 shadow-[0_0_10px_#10b981]" />
+          <div className="w-4 h-4 rounded-full bg-emerald-500 animate-pulse delay-150 shadow-[0_0_10px_#10b981]" />
         </div>
         <div className="flex items-center gap-6 text-emerald-400">
-           <Lock size={18} className="animate-pulse" />
-           <span className="text-[12px] font-black uppercase tracking-[0.5em]">Authorization Ready</span>
+           <Cpu size={18} className="animate-pulse" />
+           <span className="text-[12px] font-black uppercase tracking-[0.5em]">AuraOS Prime Final Engine</span>
         </div>
       </div>
       <div ref={scrollRef} className="flex-1 p-12 overflow-y-auto text-base space-y-4 text-slate-300 relative z-10 scrollbar-hide">
         {history.map((line, i) => (
           <div key={i} className="whitespace-pre-wrap leading-relaxed animate-in fade-in duration-300">
-            {line.includes('AUTORIZACIÓN CONFIRMADA') || line.includes('COMPLETADA') ? (
-               <span className="text-emerald-400 font-black text-xl drop-shadow-[0_0_10px_rgba(16,185,129,0.5)]">{line}</span>
+            {line.includes('ÉXITO') || line.includes('COMPLETADO') || line.includes('CONCEDIDA') || line.includes('STABLE') || line.includes('PASOS') ? (
+               <span className="text-emerald-400 font-black text-xl drop-shadow-[0_0_10px_rgba(16,185,129,0.3)]">{line}</span>
             ) : line.includes('>>>') ? (
-               <span className="text-amber-400 font-black tracking-widest">{line}</span>
+               <span className="text-amber-400 font-black tracking-widest uppercase">{line}</span>
             ) : line.startsWith('aria@prime') ? (
                <span className="text-fuchsia-400 font-black">{line}</span>
             ) : (
@@ -141,7 +118,7 @@ export const Terminal: React.FC = () => {
         {!isProcessing && (
           <form onSubmit={handleCommand} className="flex items-center pt-10">
             <span className="text-fuchsia-500 font-black mr-6 text-lg">aria@prime:~$</span>
-            <input autoFocus type="text" value={input} onChange={(e) => setInput(e.target.value)} className="flex-1 bg-transparent border-none outline-none text-white font-mono text-xl" spellCheck={false} placeholder="Escribe gradle-auth..." />
+            <input autoFocus type="text" value={input} onChange={(e) => setInput(e.target.value)} className="flex-1 bg-transparent border-none outline-none text-white font-mono text-xl" spellCheck={false} placeholder="Escribe build-apk para comenzar..." />
           </form>
         )}
       </div>

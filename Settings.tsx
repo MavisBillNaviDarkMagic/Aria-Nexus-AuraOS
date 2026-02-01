@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { 
   Save, RefreshCw, Smartphone, Variable, Zap, ShieldCheck, Eye, Mic, MapPin, 
   Camera, Github, Cpu, Box, CloudLightning, Key, Link as LinkIcon, Globe, 
-  Settings as SettingsIcon, Brain, Palette, Network, Trash2 
+  Settings as SettingsIcon, Brain, Palette, Network, Trash2, UploadCloud 
 } from 'lucide-react';
 import { SystemConfig } from '../types';
 
@@ -46,7 +46,7 @@ export const Settings: React.FC<SettingsProps> = ({ config, onUpdate }) => {
                 <Globe className="text-fuchsia-500 animate-spin-slow" size={36} />
                 Mando de Identidad AuraOS
               </h3>
-              <p className="text-slate-500 text-lg mt-2 font-semibold">Configuración de Soberanía y Enlace</p>
+              <p className="text-slate-500 text-lg mt-2 font-semibold">Configuración de Soberanía y Enlace Remoto</p>
             </div>
             <div className="flex gap-4">
               <button 
@@ -61,8 +61,8 @@ export const Settings: React.FC<SettingsProps> = ({ config, onUpdate }) => {
                 disabled={isSyncing}
                 className="px-12 py-5 bg-gradient-to-br from-fuchsia-600 to-rose-600 hover:from-fuchsia-500 hover:to-rose-500 text-white rounded-[2.5rem] font-black flex items-center justify-center gap-4 transition-all hover:scale-105 active:scale-95 disabled:opacity-50 shadow-2xl aura-glow"
               >
-                {isSyncing ? <RefreshCw className="animate-spin" size={20} /> : <CloudLightning size={20} />}
-                {isSyncing ? 'SINCRONIZANDO...' : 'SINCRO TOTAL REMOTA'}
+                {isSyncing ? <RefreshCw className="animate-spin" size={20} /> : <UploadCloud size={20} />}
+                {isSyncing ? 'SINCRONIZANDO...' : 'SINCRO GITHUB PRIME'}
               </button>
             </div>
           </div>
@@ -71,7 +71,7 @@ export const Settings: React.FC<SettingsProps> = ({ config, onUpdate }) => {
             <div className="space-y-10">
               <InputGroup 
                 icon={Github} 
-                label="Repositorio Remoto (Aura Core)" 
+                label="Repositorio de Extracción" 
                 value={localConfig.remoteRepo} 
                 onChange={(v) => setLocalConfig({...localConfig, remoteRepo: v})}
                 placeholder="https://github.com/..."
@@ -96,7 +96,7 @@ export const Settings: React.FC<SettingsProps> = ({ config, onUpdate }) => {
                   <Key size={14} className="text-amber-500" /> Protocolo de Firma Digital
                 </h4>
                 <p className="text-[10px] text-slate-500 leading-relaxed italic">
-                  AuraOS utilizará los secretos inyectados en GitHub Actions (SIGNING_KEY, ALIAS) para autenticar tus binarios Sovereign.
+                  AuraOS utilizará los secretos inyectados en GitHub Actions (SIGNING_KEY, ALIAS) para autenticar tus binarios Sovereign en el repositorio remoto vinculado.
                 </p>
                 <div className="flex items-center justify-between p-5 bg-black/40 rounded-2xl border border-white/5">
                   <span className="text-xs font-bold text-slate-500">Estado Keystore:</span>
