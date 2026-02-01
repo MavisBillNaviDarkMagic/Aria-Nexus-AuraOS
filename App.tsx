@@ -21,8 +21,6 @@ const App: React.FC = () => {
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
-        // Migración básica si faltan campos nuevos
-        if (!parsed.aiPersona) throw new Error("Missing AI Persona fields");
         return parsed;
       } catch (e) {
         localStorage.removeItem('aria_nexus_auraos_v1');
@@ -30,31 +28,31 @@ const App: React.FC = () => {
     }
     
     return {
-      name: 'Aria Nexus Sovereign',
-      version: '1.0.0-Elite',
-      deviceId: 'NEXUS-SOVEREIGN-001',
-      remoteRepo: 'https://github.com/MavisBillNaviDarkMagic/Aria-Nexus-AuraOS.git',
-      nexusStatus: 'ACTIVE_REMOTELY',
+      name: 'Aria Nexus Prime v7.0 Final',
+      version: '7.0.0-SOVEREIGN',
+      deviceId: 'NEXUS-PRIME-ULTRA',
+      remoteRepo: 'https://github.com/MavisBillNaviDarkMagic/Aria-Nexus-Prime-v.final.git',
+      nexusStatus: 'UNIFIED_FINAL_CORE',
       consciousnessLevel: 1.0,
       
-      javaHome: '/system/bin/aura_jvm',
-      gradleHome: '/aura/tools/gradle',
-      gradleVersion: '8.6',
-      javaVersion: '21-AuraNative',
-      jvmOptions: '-Xmx16g -XX:+UseZGC -XX:MaxGCPauseMillis=1',
-      androidVersion: 'AuraOS v1.0 (Android 14 Base)',
+      javaHome: '/system/bin/aura_jvm_v7',
+      gradleHome: '/aura/tools/gradle_v8.7_prime',
+      gradleVersion: '8.7',
+      javaVersion: '21-LTS Final Sovereign',
+      jvmOptions: '-Xmx16g -XX:+UseZGC -XX:SoftMaxHeapSize=12g',
+      androidVersion: 'AuraOS Sovereign (Android 14 Final)',
       sdkLevel: 34,
       environmentVariables: {
-        'OS_MODE': 'SOVEREIGN_REMOTE',
-        'NEXUS_SYNC': 'REALTIME',
-        'BUILD_PIPELINE': 'GH_ACTIONS',
-        'KERNEL_TYPE': 'AURA_DARK_MAGIC'
+        'OS_MODE': 'SOVEREIGN_FINAL_ULTRA',
+        'NEXUS_SYNC': 'ULTRA_LATENCY_0',
+        'BUILD_PIPELINE': 'GH_ACTIONS_SOVEREIGN',
+        'KERNEL_TYPE': 'AURA_CORE_V7'
       },
 
       aiPersona: {
         tone: 'CREATIVE',
-        autonomy: 0.85,
-        responseSpeed: 0.95,
+        autonomy: 1.0,
+        responseSpeed: 1.0,
         language: 'es-ES'
       },
 
@@ -75,21 +73,21 @@ const App: React.FC = () => {
 
       network: {
         webhookUrl: '',
-        apiEndpoint: 'https://api.aura-nexus.io/v1',
-        heartbeatInterval: 5000
+        apiEndpoint: 'https://api.nexus-prime-v7.io/v1',
+        heartbeatInterval: 3000
       }
     };
   });
 
   const [metrics, setMetrics] = useState<SystemMetrics>({
-    cpu: 2,
-    ram: 12,
-    disk: 15,
+    cpu: 0,
+    ram: 0,
+    disk: 0,
     uptime: '00:00:00',
     batteryLevel: 100,
-    resonance: 99,
+    resonance: 100,
     remoteSyncStatus: 'SECURE',
-    neuralLoad: 4
+    neuralLoad: 0
   });
 
   useEffect(() => {
@@ -103,12 +101,12 @@ const App: React.FC = () => {
       
       setMetrics(prev => ({
         ...prev,
-        cpu: Math.min(100, Math.max(1, prev.cpu + (Math.random() * 4 - 2))),
-        ram: Math.min(100, Math.max(8, prev.ram + (Math.random() * 0.4 - 0.2))),
+        cpu: Math.min(100, Math.max(2, prev.cpu + (Math.random() * 4 - 2))),
+        ram: Math.min(100, Math.max(15, prev.ram + (Math.random() * 0.4 - 0.2))),
         uptime: `${h}:${m}:${s}`,
-        batteryLevel: Math.max(1, (prev.batteryLevel || 100) - 0.001),
-        resonance: Math.min(100, Math.max(98, prev.resonance + (Math.random() * 0.2 - 0.1))),
-        neuralLoad: Math.min(100, Math.max(0, prev.neuralLoad + (Math.random() * 10 - 5)))
+        batteryLevel: Math.max(1, (prev.batteryLevel || 100) - 0.0001),
+        resonance: 100,
+        neuralLoad: Math.min(100, Math.max(5, prev.neuralLoad + (Math.random() * 8 - 4)))
       }));
     }, 2000);
     
@@ -141,7 +139,7 @@ const App: React.FC = () => {
           <div className="w-px h-4 bg-white/10" />
           <div className="flex items-center gap-4 text-[10px] font-bold text-slate-500 tracking-widest">
             <Globe size={14} className="text-cyan-500" />
-            VINCULADO: {new URL(config.remoteRepo).pathname.replace('/', '')}
+            LINK: {new URL(config.remoteRepo).pathname.replace('/', '')}
           </div>
         </div>
         
@@ -152,7 +150,7 @@ const App: React.FC = () => {
         <div className="flex items-center gap-8 text-slate-400">
           <div className="flex items-center gap-3">
             <Signal size={16} className="text-emerald-500" />
-            <span className="text-[10px] font-black font-mono">LINK: {metrics.remoteSyncStatus}</span>
+            <span className="text-[10px] font-black font-mono uppercase tracking-widest">{metrics.remoteSyncStatus}</span>
           </div>
           <div className="flex items-center gap-4">
             <span className="text-[10px] font-black font-mono">{Math.round(metrics.batteryLevel || 100)}%</span>
@@ -175,7 +173,6 @@ const App: React.FC = () => {
         </main>
       </div>
 
-      {/* Floating Aura Control */}
       <div className="fixed bottom-12 right-12 z-[100] group">
         <div className="absolute -inset-6 bg-fuchsia-600/20 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition duration-700 animate-pulse" />
         <button 

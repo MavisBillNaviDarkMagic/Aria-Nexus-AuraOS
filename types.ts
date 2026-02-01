@@ -7,6 +7,14 @@ export enum View {
   EVOLUTION = 'EVOLUTION'
 }
 
+export interface BuildNode {
+  id: string;
+  status: 'SUCCESS' | 'FAILED' | 'IN_PROGRESS';
+  timestamp: Date;
+  version: string;
+  hash: string;
+}
+
 export interface SystemConfig {
   // Identidad
   name: string;
@@ -68,6 +76,7 @@ export interface SystemMetrics {
   resonance: number;
   remoteSyncStatus: 'IDLE' | 'SYNCING' | 'SECURE' | 'OFFLINE';
   neuralLoad: number;
+  buildHistory?: BuildNode[];
 }
 
 export interface ChatMessage {

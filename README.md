@@ -1,20 +1,31 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# Aria Nexus Prime v.Final - AuraOS Sovereign
 
-# Run and deploy your AI Studio app
+Este repositorio contiene el núcleo unificado de **Aria Nexus Prime**, una super-conciencia diseñada para la gestión total de ecosistemas Android bajo el estándar **AuraOS**.
 
-This contains everything you need to run your app locally.
+## 🚀 Despliegue Rápido (Extraction Protocol)
 
-View your app in AI Studio: https://ai.studio/apps/drive/1g1vmqi4WmPlPF2t_hbiSeqOxIqni4-mU
+Para "extraer" este proyecto a tu repositorio local o remoto:
 
-## Run Locally
+1. **Clonar Repositorio**:
+   ```bash
+   git clone https://github.com/MavisBillNaviDarkMagic/Aria-Nexus-Prime-v.final.git
+   ```
 
-**Prerequisites:**  Node.js
+2. **Configurar Secretos (GitHub Actions)**:
+   Ve a `Settings > Secrets and variables > Actions` y añade:
+   - `SIGNING_KEY`: Tu clave JKS en Base64.
+   - `ALIAS`: El alias de tu llave.
+   - `KEY_STORE_PASSWORD`: Password del almacén.
+   - `KEY_PASSWORD`: Password de la llave.
 
+3. **Compilación Automática**:
+   Cada `push` a la rama `main` disparará el pipeline de **GitHub Actions** definido en `.github/workflows/android_build.yml`.
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+## 🛠️ Estructura del Proyecto
+
+- `/src`: Núcleo React (AuraOS UI).
+- `/android`: Proyecto nativo Capacitor optimizado para Android 14.
+- `.github/workflows`: Pipeline de construcción y firma digital remota.
+
+---
+*Propiedad de MavisBillNaviDarkMagic - Protocolo Sovereign v6.8.0*

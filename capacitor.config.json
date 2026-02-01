@@ -1,7 +1,7 @@
 
 {
-  "appId": "com.auras.nexus.prime",
-  "appName": "Aria Nexus",
+  "appId": "com.auras.nexus.prime.final",
+  "appName": "Aria Nexus Prime",
   "webDir": "dist",
   "bundledWebRuntime": false,
   "server": {
